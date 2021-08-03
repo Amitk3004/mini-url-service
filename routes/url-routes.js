@@ -6,6 +6,6 @@ router.get('/:shorturl', urlController.getOriginalUrl);
 
 router.post('/create', urlController.createMiniUrl);
 
-router.delete('/delete/:shorturl', urlController.deleteRecord);
+router.delete('/:shorturl', urlController.deleteRecord);
 
 module.exports = router;
