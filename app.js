@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const baseRoutes = require('./routes/url-routes')
 const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
 
-app.use(bodyParser.json())
+app.use(express.json())
 
 /* CORS Error Handeling  */
 app.use((req, res, next) => {
@@ -26,6 +27,7 @@ app.use((error, req, res, next) => {
 })
 
 /* Mongo DB configuration */
-mongoose.connect('mongodb+srv://mongo_user:IbJFZJ58BUpU0tOy@basecluster.kmwyl.mongodb.net/miniUrl?retryWrites=true&w=majority').then(res => {
-    app.listen(7000, () => console.log('Listening at port 7000'));
+const db_connection_str = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@basecluster.kmwyl.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true&w=majority`;
+mongoose.connect(db_connection_str, {useUnifiedTopology: true, useNewUrlParser: true}).then(res => {
+    app.listen(process.env.PORT || 7000, () => console.log(`Listening at port ${process.env.PORT || 7000}`));
 }).catch(err => {console.log(err.message)})
